@@ -1,0 +1,50 @@
+<div class="p-32">
+  <div class="shadow-md rounded-sm bg-white">
+    <ng-container *ngIf="monthStartDate !== 'Invalid date'; else elseTemplate">
+      <div class="calender-wrapper">
+        <div class="flex justify-between items-center p-5">
+          <h1 class="text-xl font-semibold">
+            <a nz-dropdown [nzDropdownMenu]="menu">
+              {{ monthStartDate | datepipe: 'MMMM' }}
+              <i nz-icon nzType="down"></i>
+            </a>
+          </h1>
+          <button
+            class="px-3 py-2 bg-blue-500 text-white font-semibold rounded-sm hover:bg-blue-600 transition-all"
+          >
+            Create Appointment
+          </button>
+        </div>
+        <app-calender
+          [monthStartDate]="monthStartDate"
+          [events]="events"
+        ></app-calender>
+        <hr />
+        <hr />
+      </div>
+    </ng-container>
+    <ng-template #elseTemplate>
+      <nz-result
+        nzStatus="warning"
+        nzTitle="There are some problems with your operation"
+      >
+        <div nz-result-extra>
+          <button nz-button nzType="primary" (click)="onReset()" nz-button>
+            Reset
+          </button>
+        </div>
+      </nz-result>
+    </ng-template>
+  </div>
+</div>
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <ul nz-menu nzSelectable>
+    <li
+      nz-menu-item
+      (click)="onChangeMonth(month)"
+      *ngFor="let month of leftMonths"
+    >
+      {{ month?.label }}
+    </li>
+  </ul>
+</nz-dropdown-menu>

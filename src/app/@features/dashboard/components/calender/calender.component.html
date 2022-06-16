@@ -1,0 +1,23 @@
+<div class="days">
+  <div class="cal-inner">
+    <div
+      class="day"
+      *ngFor="let day of calenderOption?.days"
+      (click)="onClickRow(day)"
+    >
+      <h5 class="mb-1 p-2 font-semibold">{{ day?.daySerial }}</h5>
+      <ul class="px-1">
+        <li
+          *ngFor="let event of day?.events"
+          class="event"
+          (click)="onClickEvent(event)"
+          [ngStyle]="{ background: event?.color ? event?.color : '#1970e3' }"
+        >
+          <div class="event-title">
+            {{ event?.title }}
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
