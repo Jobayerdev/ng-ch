@@ -1,3 +1,3 @@
 export interface IAppointmentStore {
-  data: any[];
+  data?: any[];
 }

@@ -5,7 +5,19 @@
       *ngFor="let day of calenderOption?.days"
       (click)="onClickRow(day)"
     >
-      <h5 class="mb-1 p-2 font-semibold">{{ day?.daySerial }}</h5>
+      <div
+        class="inline-flex m-1 justify-center items-center mb-1 p-2"
+        [ngClass]="{
+          'h-7 w-7 bg-blue-600 rounded-full text-white ': day?.isToday
+        }"
+      >
+        <h5
+          class="font-semibold text-center"
+          [ngClass]="{ 'text-white ': day?.isToday }"
+        >
+          {{ day?.daySerial }}
+        </h5>
+      </div>
       <ul class="px-1">
         <li
           *ngFor="let event of day?.events"
@@ -13,9 +25,7 @@
           (click)="onClickEvent(event)"
           [ngStyle]="{ background: event?.color ? event?.color : '#1970e3' }"
         >
-          <div class="event-title">
-            {{ event?.title }}
-          </div>
+          <div class="event-title">{{ event?.title }}</div>
         </li>
       </ul>
     </div>

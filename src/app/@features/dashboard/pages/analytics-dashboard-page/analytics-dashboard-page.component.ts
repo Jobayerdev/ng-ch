@@ -1,10 +1,12 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
+import { AppointmentDetailsComponent } from '../../components/appointment-details/appointment-details.component';
+import { CreateAppointmentComponent } from './../../components/create-appointment/create-appointment.component';
 import { DashboardService } from '../../services/dashboard.service';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { Utils } from 'src/app/@shared/utils';
 import moment from 'moment';
-
 @Component({
   selector: 'app-analytics-dashboard-page',
   templateUrl: './analytics-dashboard-page.component.html',
@@ -17,14 +19,21 @@ export class AnalyticsDashboardPageComponent implements OnInit {
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private dashboardService: DashboardService
+    private dashboardService: DashboardService,
+    private modalService: NzModalService
   ) {
     this.setLeftMonths();
   }
   ngOnInit(): void {
     this.updateCalenderFromRoute();
     this.dashboardService.appointmentStore.get().subscribe((res: any) => {
-      this.events = res.data;
+      this.events = res.data?.map((x: any) => {
+        return {
+          title: `${x.firstName} ${x.lastName}`,
+          date: moment(x.date).format('YYYY-MM-DD HH:mm:ss'),
+          data: x,
+        };
+      });
     });
   }
   private updateCalenderFromRoute() {
@@ -45,5 +54,19 @@ export class AnalyticsDashboardPageComponent implements OnInit {
   }
   onReset() {
     this.router.navigate(['/', moment().format('M')]);
+  }
+  onCreate() {
+    this.modalService.create({
+      nzTitle: 'Create Appointment',
+      nzContent: CreateAppointmentComponent,
+      nzFooter: null,
+    });
+  }
+  onClickEvent(data: any) {
+    this.modalService.create({
+      nzTitle: 'Appointment Details',
+      nzContent: AppointmentDetailsComponent,
+      nzComponentParams: data,
+    });
   }
 }

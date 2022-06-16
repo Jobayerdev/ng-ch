@@ -63,7 +63,11 @@ export class BaseStore<T> {
   private initialValueSnapShot: T;
   constructor(initialValue: T, cacheKey?: string) {
     this.cacheKey = cacheKey;
-    this.obs$ = new BehaviorSubject<T>(initialValue);
+    if (isEmpty(initialValue)) {
+      this.obs$ = new BehaviorSubject<T>(CacheStore.get(cacheKey as string));
+    } else {
+      this.obs$ = new BehaviorSubject<T>(initialValue);
+    }
     this.initialValueSnapShot = initialValue;
   }
   getValue = (): T => this.obs$.value;
@@ -91,3 +95,13 @@ export class BaseStore<T> {
     this.cacheKey ? CacheStore.remove(this.cacheKey) : null;
   };
 }
+
+const isEmpty = (value: any): boolean => {
+  if (typeof value === 'object') {
+    return Object.keys(value).length === 0;
+  }
+  if (Array.isArray(value)) {
+    return value.length === 0;
+  }
+  return value === undefined || value === null || value === '';
+};

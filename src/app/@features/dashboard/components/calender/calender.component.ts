@@ -10,6 +10,7 @@ import {
 import { ICalenderOption } from 'src/app/@shared/interfaces';
 import { Utils } from 'src/app/@shared/utils';
 import moment from 'moment';
+
 @Component({
   selector: 'app-calender',
   templateUrl: './calender.component.html',
@@ -35,8 +36,9 @@ export class CalenderComponent implements OnChanges {
       this.calenderOption,
       this.events
     );
-    console.log('events', this.events);
+
     console.log('calenderOption', this.calenderOption);
+    console.log('events', this.events);
   }
   private mergeOptionWithEvents(calenderOption: any, events: any) {
     return {
@@ -49,7 +51,9 @@ export class CalenderComponent implements OnChanges {
           const eventsArr = [...(day?.event || []), ...(getEvents || [])].map(
             (x) => ({
               ...x,
-              date: moment(x?.date).format('YYYY-MM-DD HH:mm:ss'),
+              date: moment(`${x?.date} ${x?.time}`).format(
+                'YYYY-MM-DD HH:mm:ss'
+              ),
             })
           );
           const eventsSorted = Utils.sortArrayByDateTime(eventsArr, 'date');

@@ -1,0 +1,20 @@
+<ul>
+  <li>
+    <div class="py-2 px-3 border-b border-gray-200 mb-2">
+      <span class="mr-2">First Name: </span>
+      <b>{{ data.firstName }}</b>
+    </div>
+    <div class="py-2 px-3 border-b border-gray-200 mb-2">
+      <span class="mr-2">Last Name: </span>
+      <b>{{ data.lastName }}</b>
+    </div>
+    <div class="py-2 px-3 border-b border-gray-200 mb-2">
+      <span class="mr-2">Gender: </span>
+      <b>{{ data.gender }}</b>
+    </div>
+    <div class="py-2 px-3 border-b border-gray-200 mb-2">
+      <span class="mr-2">Date and Time: </span>
+      <b>{{ data.date | date: 'dd/MM/yyyy' }} {{ data.time }}</b>
+    </div>
+  </li>
+</ul>

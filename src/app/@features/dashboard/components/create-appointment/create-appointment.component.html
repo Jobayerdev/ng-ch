@@ -1,0 +1,68 @@
+<form
+  nz-form
+  [formGroup]="validateForm"
+  (ngSubmit)="submitForm()"
+  [nzLayout]="'vertical'"
+>
+  <nz-form-item>
+    <nz-form-label nzRequired nzFor="firstName">First Name</nz-form-label>
+    <nz-form-control nzErrorTip="Invalid First Name!">
+      <input
+        type="text"
+        nz-input
+        formControlName="firstName"
+        placeholder="First Name"
+      />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzRequired nzFor="lastName">Last Name</nz-form-label>
+    <nz-form-control nzErrorTip="Invalid Last Name!">
+      <input
+        type="text"
+        nz-input
+        formControlName="lastName"
+        placeholder="Last Name"
+      />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzRequired nzFor="email">Email</nz-form-label>
+    <nz-form-control nzErrorTip="Invalid Email!">
+      <input
+        type="email"
+        nz-input
+        formControlName="email"
+        placeholder="Email"
+      />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzRequired nzFor="gender">Gender</nz-form-label>
+    <nz-form-control nzErrorTip="Invalid Gender!">
+      <nz-select formControlName="gender" nzPlaceHolder="Select Gender...">
+        <nz-option nzValue="Male" nzLabel="Male"></nz-option>
+        <nz-option nzValue="Female" nzLabel="Female"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzRequired nzFor="gender">Age</nz-form-label>
+    <nz-form-control nzErrorTip="Invalid Age!">
+      <input type="text" nz-input formControlName="age" placeholder="Age" />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzRequired nzFor="date">Date</nz-form-label>
+    <nz-form-control nzErrorTip="Invalid Date!">
+      <input type="date" nz-input formControlName="date" placeholder="Date" />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzRequired nzFor="time">Time</nz-form-label>
+    <nz-form-control nzErrorTip="Invalid Time!">
+      <input type="time" nz-input formControlName="time" placeholder="Time" />
+    </nz-form-control>
+  </nz-form-item>
+  <button nz-button [nzType]="'primary'">Submit</button>
+</form>

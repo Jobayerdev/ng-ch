@@ -1,7 +1,6 @@
 import moment, { Moment } from 'moment';
 
 import { ICalenderOption } from '../interfaces';
-
 export class Utils {
   public static enumerateDaysBetweenDates = (
     startDate: Date | Moment,
@@ -23,36 +22,6 @@ export class Utils {
     }
     return dateArray;
   };
-  // public static enumerateMonthsBetweenDates = (
-  //   startDate: string | Moment,
-  //   endDate: string | Moment
-  // ): Partial<ICalenderOption>[] => {
-  //   const dateArray: ICalenderOption[] = [];
-  //   let currentDate = moment(startDate);
-  //   while (currentDate.isBefore(endDate)) {
-  //     const payload: ICalenderOption = {
-  //       days: [],
-  //       startDate: '',
-  //       endDate: '',
-  //       id: '',
-  //       month: '',
-  //       year: '',
-  //     };
-  //     const days = Utils.enumerateDaysBetweenDates(
-  //       currentDate,
-  //       moment(currentDate).add(1, 'months')
-  //     );
-  //     payload['id'] = moment(currentDate).format('HHMMSSYYYYMM');
-  //     payload['month'] = moment(currentDate).format('MMMM');
-  //     payload['year'] = moment(currentDate).format('YYYY');
-  //     payload['days'] = days;
-  //     payload['startDate'] = days[0];
-  //     payload['endDate'] = days[days.length - 1];
-  //     dateArray.push(payload);
-  //     currentDate = moment(currentDate).add(1, 'months');
-  //   }
-  //   return dateArray;
-  // };
   public static monthInfoByStartDate = (
     startDate: string | Moment
   ): ICalenderOption => {
@@ -107,7 +76,6 @@ export class Utils {
   ): string => {
     return moment(`${year}-${serial}-01`).format('YYYY-MM-DD');
   };
-
   // sort array by date
   public static sortArrayByDate = (
     array: any[],
@@ -119,8 +87,6 @@ export class Utils {
       return dateA.diff(dateB);
     });
   };
-
-  // sort array by date and time
   public static sortArrayByDateTime = (
     array: any[],
     key: string = 'date'
@@ -131,11 +97,19 @@ export class Utils {
       return dateA.diff(dateB);
     });
   };
-  // moment compare two date is same
   public static isSameDate = (
     date1: string | Moment,
     date2: string | Moment
   ) => {
     return moment(date1).isSame(date2, 'day');
+  };
+  public static isEmpty = (value: any): boolean => {
+    if (typeof value === 'object') {
+      return Object.keys(value).length === 0;
+    }
+    if (Array.isArray(value)) {
+      return value.length === 0;
+    }
+    return value === undefined || value === null || value === '';
   };
 }
