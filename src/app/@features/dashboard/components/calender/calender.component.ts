@@ -36,9 +36,6 @@ export class CalenderComponent implements OnChanges {
       this.calenderOption,
       this.events
     );
-
-    console.log('calenderOption', this.calenderOption);
-    console.log('events', this.events);
   }
   private mergeOptionWithEvents(calenderOption: any, events: any) {
     return {

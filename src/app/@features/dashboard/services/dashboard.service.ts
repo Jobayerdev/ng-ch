@@ -9,7 +9,6 @@ export class DashboardService {
   appointmentStore = new BaseStore<IAppointmentStore>({}, 'appointmentStore');
   constructor() {}
   createAppointment(appointment: ICreateAppointmentRequest) {
-    console.log('appointment', appointment);
     this.appointmentStore.update((pv: any) => ({
       ...pv,
       data: [...(pv?.data || []), appointment],
