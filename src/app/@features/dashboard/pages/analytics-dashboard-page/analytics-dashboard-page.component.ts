@@ -7,6 +7,7 @@ import { DashboardService } from '../../services/dashboard.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { Utils } from 'src/app/@shared/utils';
 import moment from 'moment';
+
 @Component({
   selector: 'app-analytics-dashboard-page',
   templateUrl: './analytics-dashboard-page.component.html',
@@ -27,10 +28,10 @@ export class AnalyticsDashboardPageComponent implements OnInit {
   ngOnInit(): void {
     this.updateCalenderFromRoute();
     this.dashboardService.appointmentStore.get().subscribe((res: any) => {
-      this.events = res.data?.map((x: any) => {
+      this.events = res?.data?.map((x: any) => {
         return {
           title: `${x.firstName} ${x.lastName}`,
-          date: moment(x.date).format('YYYY-MM-DD HH:mm:ss'),
+          date: moment(`${x?.date} ${x?.time}`).format('YYYY-MM-DD HH:mm:ss'),
           data: x,
         };
       });

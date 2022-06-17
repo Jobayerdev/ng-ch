@@ -48,12 +48,12 @@ export class CalenderComponent implements OnChanges {
           const eventsArr = [...(day?.event || []), ...(getEvents || [])].map(
             (x) => ({
               ...x,
-              date: moment(`${x?.date} ${x?.time}`).format(
-                'YYYY-MM-DD HH:mm:ss'
-              ),
+              date: moment(x?.date).format('YYYY-MM-DD HH:mm:ss'),
             })
           );
           const eventsSorted = Utils.sortArrayByDateTime(eventsArr, 'date');
+
+          console.log(eventsSorted, 'eventsSorted');
           day.events = eventsSorted;
         } else {
           day.events = [];
