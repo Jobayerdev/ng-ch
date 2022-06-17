@@ -16,7 +16,7 @@ import moment from 'moment';
   styleUrls: ['./analytics-dashboard-page.component.scss'],
 })
 export class AnalyticsDashboardPageComponent implements OnInit {
-  monthStartDate: string = moment().format('YYYY-MM-01');
+  monthStartDate: string = '';
   leftMonths: any[] = [];
   events = [];
   constructor(
@@ -45,8 +45,7 @@ export class AnalyticsDashboardPageComponent implements OnInit {
   private updateCalenderFromRoute() {
     this.activatedRoute.paramMap.subscribe((res) => {
       const monthSerial: number = Number(res.get('month'));
-      const monthStartDate = Utils.getDateByMonthSerial(monthSerial);
-      this.monthStartDate = monthStartDate;
+      this.monthStartDate = moment(monthSerial, 'M').format('YYYY-MM-01');
     });
   }
   private setLeftMonths() {

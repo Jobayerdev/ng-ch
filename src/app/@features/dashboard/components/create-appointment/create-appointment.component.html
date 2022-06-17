@@ -55,13 +55,25 @@
   <nz-form-item>
     <nz-form-label nzRequired nzFor="date">Date</nz-form-label>
     <nz-form-control nzErrorTip="Invalid Date!">
-      <input type="date" nz-input formControlName="date" placeholder="Date" />
+      <input
+        class="h-8"
+        type="date"
+        nz-input
+        formControlName="date"
+        placeholder="Date"
+      />
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
     <nz-form-label nzRequired nzFor="time">Time</nz-form-label>
     <nz-form-control nzErrorTip="Invalid Time!">
-      <input type="time" nz-input formControlName="time" placeholder="Time" />
+      <input
+        type="time"
+        nz-input
+        class="h-8"
+        formControlName="time"
+        placeholder="Time"
+      />
     </nz-form-control>
   </nz-form-item>
   <button nz-button [nzType]="'primary'">Submit</button>
