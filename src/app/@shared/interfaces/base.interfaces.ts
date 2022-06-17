@@ -1,4 +1,4 @@
-export interface ICalenderOption {
+export interface ICHCalenderOption {
   id: string;
   month: string;
   year: string;

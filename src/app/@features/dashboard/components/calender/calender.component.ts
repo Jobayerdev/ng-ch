@@ -9,7 +9,7 @@ import {
 import { ICHDay, ICHEvent } from '../../models/calender.interfaces';
 import moment, { Moment } from 'moment';
 
-import { ICalenderOption } from 'src/app/@shared/interfaces';
+import { ICHCalenderOption } from 'src/app/@shared/interfaces';
 
 @Component({
   selector: 'app-calender',
@@ -21,7 +21,7 @@ export class CalenderComponent implements OnChanges {
   @Input() events: ICHEvent[] = [];
   @Output() clickRow: EventEmitter<ICHDay> = new EventEmitter<ICHDay>();
   @Output() clickEvent: EventEmitter<ICHEvent> = new EventEmitter<ICHEvent>();
-  calenderOption!: ICalenderOption;
+  calenderOption!: ICHCalenderOption;
   constructor() {}
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['monthStartDate']) {
@@ -38,7 +38,7 @@ export class CalenderComponent implements OnChanges {
     );
   }
   private mergeOptionWithEvents(
-    calenderOption: ICalenderOption,
+    calenderOption: ICHCalenderOption,
     events: ICHEvent[]
   ) {
     return {
@@ -99,9 +99,9 @@ export class CalenderComponent implements OnChanges {
   };
   private monthInfoByStartDate = (
     startDate: string | Moment
-  ): ICalenderOption => {
+  ): ICHCalenderOption => {
     let currentDate = moment(startDate);
-    const payload: ICalenderOption = {
+    const payload: ICHCalenderOption = {
       days: [],
       startDate: '',
       endDate: '',
