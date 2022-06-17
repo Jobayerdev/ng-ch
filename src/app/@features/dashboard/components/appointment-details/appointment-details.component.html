@@ -2,19 +2,21 @@
   <li>
     <div class="py-2 px-3 border-b border-gray-200 mb-2">
       <span class="mr-2">First Name: </span>
-      <b>{{ data.firstName }}</b>
+      <b>{{ appointment?.firstName }}</b>
     </div>
     <div class="py-2 px-3 border-b border-gray-200 mb-2">
       <span class="mr-2">Last Name: </span>
-      <b>{{ data.lastName }}</b>
+      <b>{{ appointment?.lastName }}</b>
     </div>
     <div class="py-2 px-3 border-b border-gray-200 mb-2">
       <span class="mr-2">Gender: </span>
-      <b>{{ data.gender }}</b>
+      <b>{{ appointment?.gender }}</b>
     </div>
     <div class="py-2 px-3 border-b border-gray-200 mb-2">
       <span class="mr-2">Date and Time: </span>
-      <b>{{ data.date | date: 'dd/MM/yyyy' }} {{ data.time }}</b>
+      <b
+        >{{ appointment?.date | date: 'dd/MM/yyyy' }} {{ appointment?.time }}</b
+      >
     </div>
   </li>
 </ul>

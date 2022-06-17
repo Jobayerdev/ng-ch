@@ -4,6 +4,8 @@ import { Component, OnInit } from '@angular/core';
 import { AppointmentDetailsComponent } from '../../components/appointment-details/appointment-details.component';
 import { CreateAppointmentComponent } from './../../components/create-appointment/create-appointment.component';
 import { DashboardService } from '../../services/dashboard.service';
+import { IAppointment } from '../../models/appointments.interfaces';
+import { ICHEvent } from './../../models/calender.interfaces';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { Utils } from 'src/app/@shared/utils';
 import moment from 'moment';
@@ -27,6 +29,9 @@ export class AnalyticsDashboardPageComponent implements OnInit {
   }
   ngOnInit(): void {
     this.updateCalenderFromRoute();
+    this.fetchEvents();
+  }
+  private fetchEvents() {
     this.dashboardService.appointmentStore.get().subscribe((res: any) => {
       this.events = res?.data?.map((x: any) => {
         return {
@@ -56,18 +61,20 @@ export class AnalyticsDashboardPageComponent implements OnInit {
   onReset() {
     this.router.navigate(['/', moment().format('M')]);
   }
-  onCreate() {
+  onCreateAppointment() {
     this.modalService.create({
       nzTitle: 'Create Appointment',
       nzContent: CreateAppointmentComponent,
       nzFooter: null,
     });
   }
-  onClickEvent(data: any) {
+  onClickEvent(appointment: ICHEvent<IAppointment>) {
     this.modalService.create({
       nzTitle: 'Appointment Details',
       nzContent: AppointmentDetailsComponent,
-      nzComponentParams: data,
+      nzComponentParams: {
+        appointment: appointment?.data,
+      },
     });
   }
 }

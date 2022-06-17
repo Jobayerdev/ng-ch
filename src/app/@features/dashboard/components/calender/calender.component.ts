@@ -6,10 +6,10 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
+import { ICHDay, ICHEvent } from '../../models/calender.interfaces';
+import moment, { Moment } from 'moment';
 
 import { ICalenderOption } from 'src/app/@shared/interfaces';
-import { Utils } from 'src/app/@shared/utils';
-import moment from 'moment';
 
 @Component({
   selector: 'app-calender',
@@ -18,14 +18,14 @@ import moment from 'moment';
 })
 export class CalenderComponent implements OnChanges {
   @Input() monthStartDate: string = moment().format('YYYY-MM-01');
-  @Input() events: any[] = [];
-  @Output() clickRow: any = new EventEmitter<any>();
-  @Output() clickEvent: any = new EventEmitter<any>();
+  @Input() events: ICHEvent[] = [];
+  @Output() clickRow: EventEmitter<ICHDay> = new EventEmitter<ICHDay>();
+  @Output() clickEvent: EventEmitter<ICHEvent> = new EventEmitter<ICHEvent>();
   calenderOption!: ICalenderOption;
   constructor() {}
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['monthStartDate']) {
-      this.calenderOption = Utils.monthInfoByStartDate(
+      this.calenderOption = this.monthInfoByStartDate(
         moment(changes['monthStartDate']?.currentValue).format('YYYY-MM-01')
       );
     }
@@ -37,7 +37,10 @@ export class CalenderComponent implements OnChanges {
       this.events
     );
   }
-  private mergeOptionWithEvents(calenderOption: any, events: any) {
+  private mergeOptionWithEvents(
+    calenderOption: ICalenderOption,
+    events: ICHEvent[]
+  ) {
     return {
       ...calenderOption,
       days: calenderOption?.days?.map((day: any) => {
@@ -46,15 +49,13 @@ export class CalenderComponent implements OnChanges {
         });
         if (getEvents) {
           const eventsArr = [...(day?.event || []), ...(getEvents || [])].map(
-            (x) => ({
-              ...x,
-              date: moment(x?.date).format('YYYY-MM-DD HH:mm:ss'),
+            (_event) => ({
+              ..._event,
+              date: moment(_event?.date).format('YYYY-MM-DD HH:mm:ss'),
             })
           );
-          const eventsSorted = Utils.sortArrayByDateTime(eventsArr, 'date');
-
-          console.log(eventsSorted, 'eventsSorted');
-          day.events = eventsSorted;
+          const sortedEvents = this.sortArrayByDateTime(eventsArr, 'date');
+          day.events = sortedEvents;
         } else {
           day.events = [];
         }
@@ -62,10 +63,69 @@ export class CalenderComponent implements OnChanges {
       }),
     };
   }
-  onClickRow(day: any) {
+  onClickRow(day: ICHDay) {
     this.clickRow.emit(day);
   }
-  onClickEvent(event: any) {
+  onClickEvent(event: ICHEvent) {
     this.clickEvent.emit(event);
   }
+  private enumerateDaysBetweenDates = (
+    startDate: Date | Moment,
+    endDate: Date | Moment,
+    format: string = 'YYYY-MM-DD'
+  ): ICHDay[] => {
+    const dateArray = [];
+    let currentDate = moment(startDate);
+    while (currentDate.isBefore(endDate)) {
+      const payload: ICHDay = {
+        date: '',
+        day: '',
+        daySerial: '',
+        isToday: false,
+        month: '',
+        year: '',
+        events: [],
+      };
+      payload['date'] = moment(currentDate).format(format);
+      payload['day'] = moment(currentDate).format('dddd');
+      payload['isToday'] = moment(currentDate).isSame(new Date(), 'day');
+      payload['month'] = moment(currentDate).format('MMMM');
+      payload['year'] = moment(currentDate).format('YYYY');
+      payload['daySerial'] = moment(currentDate).format('DD');
+      dateArray.push(payload);
+      currentDate = moment(currentDate).add(1, 'days');
+    }
+    return dateArray;
+  };
+  private monthInfoByStartDate = (
+    startDate: string | Moment
+  ): ICalenderOption => {
+    let currentDate = moment(startDate);
+    const payload: ICalenderOption = {
+      days: [],
+      startDate: '',
+      endDate: '',
+      id: '',
+      month: '',
+      year: '',
+    };
+    const days: ICHDay[] = this.enumerateDaysBetweenDates(
+      currentDate,
+      moment(currentDate).add(1, 'months')
+    );
+    payload['id'] = moment(currentDate).format('HHMMSSYYYYMM');
+    payload['month'] = moment(currentDate).format('MMMM');
+    payload['year'] = moment(currentDate).format('YYYY');
+    payload['days'] = days;
+    payload['startDate'] = String(days[0]);
+    payload['endDate'] = String(days[days.length - 1]);
+    return payload;
+  };
+  private sortArrayByDateTime = (array: any[], key: string = 'date'): any[] => {
+    return array.sort((a, b) => {
+      const dateA = moment(a[key]);
+      const dateB = moment(b[key]);
+      return dateA.diff(dateB);
+    });
+  };
 }
